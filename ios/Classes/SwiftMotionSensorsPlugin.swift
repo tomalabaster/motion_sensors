@@ -104,7 +104,9 @@ class AttitudeStreamHandler: NSObject, FlutterStreamHandler {
     func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
         if motionManager.isDeviceMotionAvailable {
             motionManager.startDeviceMotionUpdates(using: CMAttitudeReferenceFrame.xMagneticNorthZVertical, to: queue) { (data, error) in
-                events([-data!.attitude.yaw, -data!.attitude.pitch, data!.attitude.roll]);
+                if (data != nil) {
+                    events([-data!.attitude.yaw, -data!.attitude.pitch, data!.attitude.roll]);
+                }
             }
         }
         return nil;
